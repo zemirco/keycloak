@@ -207,7 +207,7 @@ func ExamplePoliciesService_CreateUserPolicy() {
 		Policy: keycloak.Policy{
 			Type:             keycloak.String("user"),
 			Logic:            keycloak.String("POSITIVE"),
-			DecisionStrategy: keycloak.String("UNANIMOUS"),
+			DecisionStrategy: keycloak.String(keycloak.DecisionStrategyUnanimous),
 			Name:             keycloak.String("policy"),
 		},
 		Users: []string{"89400c55-15fd-4e5d-a7c9-403f431d97f3"},

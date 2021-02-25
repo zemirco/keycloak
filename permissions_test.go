@@ -21,7 +21,7 @@ func TestPermissionsService_CreateResourcePermission(t *testing.T) {
 		Permission: Permission{
 			Type:             String("resource"),
 			Logic:            String("POSITIVE"),
-			DecisionStrategy: String("UNANIMOUS"),
+			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
 			Policies:         []string{*policy.ID},
@@ -57,7 +57,7 @@ func TestPermissionsService_GetResourcePermission(t *testing.T) {
 		Permission: Permission{
 			Type:             String("resource"),
 			Logic:            String("POSITIVE"),
-			DecisionStrategy: String("UNANIMOUS"),
+			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
 			Policies:         []string{*policy.ID},
@@ -103,7 +103,7 @@ func TestPermissionsService_CreateScopePermission(t *testing.T) {
 		Permission: Permission{
 			Type:             String("resource"),
 			Logic:            String("POSITIVE"),
-			DecisionStrategy: String("UNANIMOUS"),
+			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
 			Policies:         []string{*policy.ID},
@@ -143,7 +143,7 @@ func TestPermissionsService_GetScopePermission(t *testing.T) {
 		Permission: Permission{
 			Type:             String("resource"),
 			Logic:            String("POSITIVE"),
-			DecisionStrategy: String("UNANIMOUS"),
+			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
 			Policies:         []string{*policy.ID},
@@ -192,7 +192,7 @@ func TestPermissionsService_List(t *testing.T) {
 		Permission: Permission{
 			Type:             String("resource"),
 			Logic:            String("POSITIVE"),
-			DecisionStrategy: String("UNANIMOUS"),
+			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
 			Policies:         []string{*policy.ID},
