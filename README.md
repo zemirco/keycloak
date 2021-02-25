@@ -3,6 +3,7 @@
 
 [![ci](https://github.com/zemirco/keycloak/workflows/ci/badge.svg)](https://github.com/zemirco/keycloak/actions)
 [![Go Reference](https://pkg.go.dev/badge/github.com/zemirco/keycloak.svg)](https://pkg.go.dev/github.com/zemirco/keycloak)
+[![Go Report Card](https://goreportcard.com/badge/github.com/zemirco/keycloak)](https://goreportcard.com/report/github.com/zemirco/keycloak)
 
 keycloak is a Go client library for accessing the [Keycloak API](https://www.keycloak.org/docs-api/12.0/rest-api/index.html).
 
