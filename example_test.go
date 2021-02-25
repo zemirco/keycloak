@@ -29,7 +29,10 @@ func ExampleNewKeycloak_admin() {
 	httpClient := config.Client(ctx, token)
 
 	// use the http client to create a Keycloak instance
-	kc := keycloak.NewKeycloak(httpClient)
+	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	// then use this instance to make requests to the API
 	fmt.Println(kc)
@@ -57,14 +60,20 @@ func ExampleNewKeycloak_user() {
 	httpClient := config.Client(ctx, token)
 
 	// use the http client to create a Keycloak instance
-	kc := keycloak.NewKeycloak(httpClient)
+	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	// then use this instance to make requests to the API
 	fmt.Println(kc)
 }
 
 func ExampleRealmsService_Create() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	realm := &keycloak.Realm{
 		Enabled: keycloak.Bool(true),
@@ -83,7 +92,10 @@ func ExampleRealmsService_Create() {
 }
 
 func ExampleUsersService_Create() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	user := &keycloak.User{
 		Enabled:   keycloak.Bool(true),
@@ -103,7 +115,10 @@ func ExampleUsersService_Create() {
 }
 
 func ExampleClientsService_Create() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	client := &keycloak.Client{
 		Enabled:  keycloak.Bool(true),
@@ -120,7 +135,10 @@ func ExampleClientsService_Create() {
 }
 
 func ExampleScopesService_Create() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	scope := &keycloak.Scope{
 		Name: keycloak.String("scope_read"),
@@ -138,7 +156,10 @@ func ExampleScopesService_Create() {
 }
 
 func ExampleRolesService_Create() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	role := &keycloak.Role{
 		Name:        keycloak.String("my name"),
@@ -155,7 +176,10 @@ func ExampleRolesService_Create() {
 }
 
 func ExampleResourcesService_Create() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	resource := &keycloak.Resource{
 		Name:        keycloak.String("resource"),
@@ -174,7 +198,10 @@ func ExampleResourcesService_Create() {
 }
 
 func ExamplePoliciesService_CreateUserPolicy() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	policy := &keycloak.UserPolicy{
 		Policy: keycloak.Policy{
@@ -198,7 +225,10 @@ func ExamplePoliciesService_CreateUserPolicy() {
 }
 
 func ExampleGroupsService_Create() {
-	kc := keycloak.NewKeycloak(nil)
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	group := &keycloak.Group{
 		Name: keycloak.String("mygroup"),

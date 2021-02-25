@@ -27,7 +27,11 @@ func client(t *testing.T) *Keycloak {
 
 	client := config.Client(ctx, token)
 
-	return NewKeycloak(client)
+	kc, err := NewKeycloak(client, "http://localhost:8080/auth/")
+	if err != nil {
+		t.Error(err)
+	}
+	return kc
 }
 
 func TestKeycloak_New(t *testing.T) {

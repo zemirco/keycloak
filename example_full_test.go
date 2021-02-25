@@ -39,7 +39,10 @@ func Example_full() {
 	httpClient := config.Client(ctx, token)
 
 	// create a new keycloak client instance
-	kc := keycloak.NewKeycloak(httpClient)
+	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/auth/")
+	if err != nil {
+		panic(err)
+	}
 
 	// create a new realm
 	r := &keycloak.Realm{

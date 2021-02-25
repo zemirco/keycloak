@@ -11,10 +11,6 @@ import (
 	"strings"
 )
 
-const (
-	defaultBaseURL = "http://localhost:8080/auth/"
-)
-
 // Keycloak ...
 type Keycloak struct {
 	client *http.Client
@@ -40,16 +36,20 @@ type service struct {
 }
 
 // NewKeycloak ...
-func NewKeycloak(httpClient *http.Client) *Keycloak {
+func NewKeycloak(httpClient *http.Client, baseURL string) (*Keycloak, error) {
 	if httpClient == nil {
 		httpClient = &http.Client{}
 	}
-	baseURL, _ := url.Parse(defaultBaseURL)
+	uri, err := url.Parse(baseURL)
+	if err != nil {
+		return nil, err
+	}
 
 	k := &Keycloak{
 		client:  httpClient,
-		BaseURL: baseURL,
+		BaseURL: uri,
 	}
+
 	k.common.keycloak = k
 	k.Clients = (*ClientsService)(&k.common)
 	k.ClientScopes = (*ClientScopesService)(&k.common)
@@ -61,7 +61,8 @@ func NewKeycloak(httpClient *http.Client) *Keycloak {
 	k.Groups = (*GroupsService)(&k.common)
 	k.Roles = (*RolesService)(&k.common)
 	k.Scopes = (*ScopesService)(&k.common)
-	return k
+
+	return k, nil
 }
 
 // NewRequest ...

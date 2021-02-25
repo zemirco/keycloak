@@ -39,7 +39,10 @@ if err != nil {
 client := config.Client(ctx, token)
 
 // create a new keycloak instance and provide the http client
-k := keycloak.NewKeycloak(client)
+k, err := keycloak.NewKeycloak(client, "http://localhost:8080/auth/")
+if err != nil {
+    panic(err)
+}
 
 // start using the library and, for example, create a new realm
 realm := &keycloak.Realm{
