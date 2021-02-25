@@ -18,44 +18,67 @@ go get github.com/zemirco/keycloak
 ## Usage
 
 ```go
-import "github.com/zemirco/keycloak"
+package main
 
-// create your oauth configuration
-config := oauth2.Config{
-    ClientID: "admin-cli",
-    Endpoint: oauth2.Endpoint{
-        TokenURL: "http://localhost:8080/auth/realms/master/protocol/openid-connect/token",
-    },
-}
+import (
+    "context"
 
-// get a valid token from keycloak
-ctx := context.Background()
-token, err := config.PasswordCredentialsToken(ctx, "admin", "admin")
-if err != nil {
-    panic(err)
-}
+    "github.com/zemirco/keycloak"
+    "golang.org/x/oauth2"
+)
 
-// create a new http client that uses the token on every request
-client := config.Client(ctx, token)
+func main() {
+    // create your oauth configuration
+    config := oauth2.Config{
+        ClientID: "admin-cli",
+        Endpoint: oauth2.Endpoint{
+            TokenURL: "http://localhost:8080/auth/realms/master/protocol/openid-connect/token",
+        },
+    }
 
-// create a new keycloak instance and provide the http client
-k, err := keycloak.NewKeycloak(client, "http://localhost:8080/auth/")
-if err != nil {
-    panic(err)
-}
+    // get a valid token from keycloak
+    ctx := context.Background()
+    token, err := config.PasswordCredentialsToken(ctx, "admin", "admin")
+    if err != nil {
+        panic(err)
+    }
 
-// start using the library and, for example, create a new realm
-realm := &keycloak.Realm{
-    Enabled: keycloak.Bool(true),
-    ID:      keycloak.String("myrealm"),
-    Realm:   keycloak.String("myrealm"),
-}
+    // create a new http client that uses the token on every request
+    client := config.Client(ctx, token)
 
-res, err := k.Realms.Create(ctx, realm)
-if err != nil {
-    panic(err)
+    // create a new keycloak instance and provide the http client
+    k, err := keycloak.NewKeycloak(client, "http://localhost:8080/auth/")
+    if err != nil {
+        panic(err)
+    }
+
+    // start using the library and, for example, create a new realm
+    realm := &keycloak.Realm{
+        Enabled: keycloak.Bool(true),
+        ID:      keycloak.String("myrealm"),
+        Realm:   keycloak.String("myrealm"),
+    }
+
+    res, err := k.Realms.Create(ctx, realm)
+    if err != nil {
+        panic(err)
+    }
 }
 ```
+
+## Examples
+
+- [full example](https://github.com/zemirco/keycloak/blob/main/example_full_test.go): realm, client, users, resources, policies, permissions, evaluation
+- [ClientsService.Create](https://pkg.go.dev/github.com/zemirco/keycloak#example-ClientsService.Create): Create a new client
+- [GroupsService.Create](https://pkg.go.dev/github.com/zemirco/keycloak#example-GroupsService.Create): Create a new group
+- [NewKeycloak-Admin](https://pkg.go.dev/github.com/zemirco/keycloak#example-NewKeycloak-Admin): Create an admin instance
+- [NewKeycloak-User](https://pkg.go.dev/github.com/zemirco/keycloak#example-NewKeycloak-User): Create a user instance
+- [PoliciesService.CreateUserPolicy](https://pkg.go.dev/github.com/zemirco/keycloak#example-PoliciesService.CreateUserPolicy): Create a user policy
+- [RealmsService.Create](https://pkg.go.dev/github.com/zemirco/keycloak#example-RealmsService.Create): Create a new realm
+- [ResourcesService.Create](https://pkg.go.dev/github.com/zemirco/keycloak#example-ResourcesService.Create): Create a new resource
+- [RolesService.Create](https://pkg.go.dev/github.com/zemirco/keycloak#example-RolesService.Create): Create a new role
+- [ScopesService.Create](https://pkg.go.dev/github.com/zemirco/keycloak#example-ScopesService.Create): Create a new scope
+- [UsersService.Create](https://pkg.go.dev/github.com/zemirco/keycloak#example-UsersService.Create): Create a new user
 
 ## Development
 
