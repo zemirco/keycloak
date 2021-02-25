@@ -20,7 +20,7 @@ func TestPermissionsService_CreateResourcePermission(t *testing.T) {
 	permission := &ResourcePermission{
 		Permission: Permission{
 			Type:             String("resource"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
@@ -56,7 +56,7 @@ func TestPermissionsService_GetResourcePermission(t *testing.T) {
 	permission := &ResourcePermission{
 		Permission: Permission{
 			Type:             String("resource"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
@@ -102,7 +102,7 @@ func TestPermissionsService_CreateScopePermission(t *testing.T) {
 	permission := &ScopePermission{
 		Permission: Permission{
 			Type:             String("resource"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
@@ -142,7 +142,7 @@ func TestPermissionsService_GetScopePermission(t *testing.T) {
 	permission := &ScopePermission{
 		Permission: Permission{
 			Type:             String("resource"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},
@@ -191,7 +191,7 @@ func TestPermissionsService_List(t *testing.T) {
 	permission := &ScopePermission{
 		Permission: Permission{
 			Type:             String("resource"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("permission"),
 			Resources:        []string{*resource.ID},

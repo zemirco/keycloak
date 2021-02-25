@@ -1,6 +1,6 @@
 package keycloak
 
-// DecisionStrategy dictates how the policies associated with a given policy are evaluated and how a final decision is obtained.
+// The decision strategy dictates how the policies associated with a given policy are evaluated and how a final decision is obtained.
 //
 // https://github.com/keycloak/keycloak/blob/master/core/src/main/java/org/keycloak/representations/idm/authorization/DecisionStrategy.java
 const (

@@ -207,7 +207,7 @@ func Example_full() {
 	userAPolicy := &keycloak.UserPolicy{
 		Policy: keycloak.Policy{
 			Type:             keycloak.String("user"),
-			Logic:            keycloak.String("POSITIVE"),
+			Logic:            keycloak.String(keycloak.LogicPositive),
 			DecisionStrategy: keycloak.String(keycloak.DecisionStrategyUnanimous),
 			Name:             keycloak.String("user_a_policy"),
 		},
@@ -223,7 +223,7 @@ func Example_full() {
 	userBPolicy := &keycloak.UserPolicy{
 		Policy: keycloak.Policy{
 			Type:             keycloak.String("user"),
-			Logic:            keycloak.String("POSITIVE"),
+			Logic:            keycloak.String(keycloak.LogicPositive),
 			DecisionStrategy: keycloak.String(keycloak.DecisionStrategyUnanimous),
 			Name:             keycloak.String("user_b_policy"),
 		},
@@ -239,7 +239,7 @@ func Example_full() {
 	permission1 := &keycloak.ScopePermission{
 		Permission: keycloak.Permission{
 			Type:             keycloak.String("resource"),
-			Logic:            keycloak.String("POSITIVE"),
+			Logic:            keycloak.String(keycloak.LogicPositive),
 			DecisionStrategy: keycloak.String(keycloak.DecisionStrategyUnanimous),
 			Name:             keycloak.String("permission__project_1__user_a_policy"),
 			Resources:        []string{*resourceProject1.ID},
@@ -256,7 +256,7 @@ func Example_full() {
 	permission2 := &keycloak.ScopePermission{
 		Permission: keycloak.Permission{
 			Type:             keycloak.String("resource"),
-			Logic:            keycloak.String("POSITIVE"),
+			Logic:            keycloak.String(keycloak.LogicPositive),
 			DecisionStrategy: keycloak.String(keycloak.DecisionStrategyUnanimous),
 			Name:             keycloak.String("permission__project_2__user_b_policy"),
 			Resources:        []string{*resourceProject2.ID},

@@ -10,7 +10,7 @@ func createUserPolicy(t *testing.T, k *Keycloak, realm, clientID, userID string)
 	policy := &UserPolicy{
 		Policy: Policy{
 			Type:             String("user"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("policy"),
 		},
@@ -35,7 +35,7 @@ func TestPoliciesService_CreateUserPolicy(t *testing.T) {
 	policy := &UserPolicy{
 		Policy: Policy{
 			Type:             String("user"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("policy"),
 		},
@@ -73,7 +73,7 @@ func TestPoliciesService_CreateRolePolicy(t *testing.T) {
 	policy := &RolePolicy{
 		Policy: Policy{
 			Type:             String("role"),
-			Logic:            String("POSITIVE"),
+			Logic:            String(LogicPositive),
 			DecisionStrategy: String(DecisionStrategyUnanimous),
 			Name:             String("policy"),
 		},
