@@ -117,3 +117,20 @@ func (s *PoliciesService) CreateRolePolicy(ctx context.Context, realm, clientID 
 
 	return &created, res, nil
 }
+
+// CreateGroupPolicy creates a new group policy.
+func (s *PoliciesService) CreateGroupPolicy(ctx context.Context, realm, clientID string, policy *GroupPolicy) (*GroupPolicy, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/clients/%s/authz/resource-server/policy/group", realm, clientID)
+	req, err := s.keycloak.NewRequest(http.MethodPost, u, policy)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var created GroupPolicy
+	res, err := s.keycloak.Do(ctx, req, &created)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &created, res, nil
+}
