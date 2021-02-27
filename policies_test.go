@@ -67,7 +67,7 @@ func TestPoliciesService_CreateRolePolicy(t *testing.T) {
 
 	role, res, err := k.RealmRoles.GetByName(context.Background(), realm, "role")
 	if err != nil {
-		t.Errorf("Roles.GetByName returned error: %v", err)
+		t.Errorf("RealmRoles.GetByName returned error: %v", err)
 	}
 
 	policy := &RolePolicy{
@@ -85,6 +85,41 @@ func TestPoliciesService_CreateRolePolicy(t *testing.T) {
 	policy, res, err = k.Policies.CreateRolePolicy(context.Background(), realm, clientID, policy)
 	if err != nil {
 		t.Errorf("Policies.CreateRolePolicy returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusCreated {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusCreated)
+	}
+
+	if *policy.Name != "policy" {
+		t.Errorf("got: %s, want: %s", *policy.Name, "policy")
+	}
+}
+
+func TestPoliciesService_CreateGroupPolicy(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	createRealm(t, k, realm)
+	clientID := createClient(t, k, realm, "client")
+
+	groupID := createGroup(t, k, realm, "group")
+
+	policy := &GroupPolicy{
+		Policy: Policy{
+			Type:             String("role"),
+			Logic:            String(LogicPositive),
+			DecisionStrategy: String(DecisionStrategyUnanimous),
+			Name:             String("policy"),
+		},
+		Groups: []*GroupDefinition{{
+			ID: &groupID,
+		}},
+	}
+
+	policy, res, err := k.Policies.CreateGroupPolicy(context.Background(), realm, clientID, policy)
+	if err != nil {
+		t.Errorf("Policies.CreateGroupPolicy returned error: %v", err)
 	}
 
 	if res.StatusCode != http.StatusCreated {
