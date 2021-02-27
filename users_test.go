@@ -79,6 +79,33 @@ func TestUsersService_List(t *testing.T) {
 	}
 }
 
+func TestUsersService_GetByUsername(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	createRealm(t, k, realm)
+
+	createUser(t, k, realm, "john")
+
+	users, res, err := k.Users.GetByUsername(context.Background(), realm, "john")
+	if err != nil {
+		t.Errorf("Users.GetByUsername returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
+	}
+
+	// it includes the master realm
+	if len(users) != 1 {
+		t.Errorf("got: %d, want: %d", len(users), 1)
+	}
+
+	if *users[0].Username != "john" {
+		t.Errorf("got: %s, want: %s", *users[0].Username, "john")
+	}
+}
+
 func TestUsersService_ResetPassword(t *testing.T) {
 	k := client(t)
 
