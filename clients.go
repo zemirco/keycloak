@@ -106,34 +106,6 @@ func (s *ClientsService) Delete() {
 
 }
 
-// CreateRole creates a new client role.
-func (s *ClientsService) CreateRole(ctx context.Context, realm, id string, role *Role) (*http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/clients/%s/roles", realm, id)
-	req, err := s.keycloak.NewRequest(http.MethodPost, u, role)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.keycloak.Do(ctx, req, nil)
-}
-
-// ListRoles lists all client roles.
-func (s *ClientsService) ListRoles(ctx context.Context, realm, id string) ([]*Role, *http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/clients/%s/roles", realm, id)
-	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var roles []*Role
-	res, err := s.keycloak.Do(ctx, req, &roles)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return roles, res, nil
-}
-
 // GetSecret gets client secret.
 func (s *ClientsService) GetSecret(ctx context.Context, realm, id string) (*Credential, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/clients/%s/client-secret", realm, id)
@@ -172,26 +144,4 @@ func (s *ClientsService) CreateSecret(ctx context.Context, realm, id string) (*C
 type Options struct {
 	First int    `url:"first,omitempty"`
 	Max   string `url:"max,omitempty"`
-}
-
-// GetUsersInRole returns a stream of users that have the specified role name.
-func (s *ClientsService) GetUsersInRole(ctx context.Context, realm, clientID, role string, opts *Options) ([]*User, *http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/clients/%s/roles/%s/users", realm, clientID, role)
-	u, err := addOptions(u, opts)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var users []*User
-	res, err := s.keycloak.Do(ctx, req, &users)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return users, res, nil
 }

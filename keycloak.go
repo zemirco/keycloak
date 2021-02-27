@@ -23,15 +23,16 @@ type Keycloak struct {
 	common service
 
 	Clients      *ClientsService
+	ClientRoles  *ClientRolesService
 	ClientScopes *ClientScopesService
-	Roles        *RolesService
-	Realms       *RealmsService
-	Resources    *ResourcesService
+	Groups       *GroupsService
 	Permissions  *PermissionsService
 	Policies     *PoliciesService
-	Users        *UsersService
-	Groups       *GroupsService
+	Realms       *RealmsService
+	Resources    *ResourcesService
+	Roles        *RolesService
 	Scopes       *ScopesService
+	Users        *UsersService
 }
 
 type service struct {
@@ -77,15 +78,16 @@ func NewKeycloak(httpClient *http.Client, baseURL string) (*Keycloak, error) {
 
 	k.common.keycloak = k
 	k.Clients = (*ClientsService)(&k.common)
+	k.ClientRoles = (*ClientRolesService)(&k.common)
 	k.ClientScopes = (*ClientScopesService)(&k.common)
-	k.Realms = (*RealmsService)(&k.common)
-	k.Resources = (*ResourcesService)(&k.common)
+	k.Groups = (*GroupsService)(&k.common)
 	k.Permissions = (*PermissionsService)(&k.common)
 	k.Policies = (*PoliciesService)(&k.common)
-	k.Users = (*UsersService)(&k.common)
-	k.Groups = (*GroupsService)(&k.common)
+	k.Realms = (*RealmsService)(&k.common)
+	k.Resources = (*ResourcesService)(&k.common)
 	k.Roles = (*RolesService)(&k.common)
 	k.Scopes = (*ScopesService)(&k.common)
+	k.Users = (*UsersService)(&k.common)
 
 	return k, nil
 }
