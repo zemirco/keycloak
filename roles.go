@@ -31,9 +31,21 @@ func (s *RolesService) Create(ctx context.Context, realm string, role *Role) (*h
 	return s.keycloak.Do(ctx, req, nil)
 }
 
+// RolesListOptions ...
+type RolesListOptions struct {
+	BriefRepresentation bool `url:"briefRepresentation,omitempty"`
+	Search              bool `url:"search,omitempty"`
+	Options
+}
+
 // List roles.
-func (s *RolesService) List(ctx context.Context, realm string) ([]*Role, *http.Response, error) {
+func (s *RolesService) List(ctx context.Context, realm string, opts *RolesListOptions) ([]*Role, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/roles", realm)
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
 	if err != nil {
 		return nil, nil, err

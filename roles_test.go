@@ -52,7 +52,7 @@ func TestRolesService_List(t *testing.T) {
 	createRealmRole(t, k, realm, "first")
 	createRealmRole(t, k, realm, "second")
 
-	roles, res, err := k.Roles.List(context.Background(), realm)
+	roles, res, err := k.Roles.List(context.Background(), realm, nil)
 	if err != nil {
 		t.Errorf("Roles.List returned error: %v", err)
 	}

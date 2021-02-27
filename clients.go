@@ -150,3 +150,48 @@ func (s *ClientsService) GetSecret(ctx context.Context, realm, id string) (*Cred
 
 	return &credential, res, nil
 }
+
+// CreateSecret generates a new secret for the client
+func (s *ClientsService) CreateSecret(ctx context.Context, realm, id string) (*Credential, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/clients/%s", realm, id)
+	req, err := s.keycloak.NewRequest(http.MethodPost, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var credential Credential
+	res, err := s.keycloak.Do(ctx, req, &credential)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &credential, res, nil
+}
+
+// Options ...
+type Options struct {
+	First int    `url:"first,omitempty"`
+	Max   string `url:"max,omitempty"`
+}
+
+// GetUsersInRole returns a stream of users that have the specified role name.
+func (s *ClientsService) GetUsersInRole(ctx context.Context, realm, clientID, role string, opts *Options) ([]*User, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/clients/%s/roles/%s/users", realm, clientID, role)
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var users []*User
+	res, err := s.keycloak.Do(ctx, req, &users)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return users, res, nil
+}
