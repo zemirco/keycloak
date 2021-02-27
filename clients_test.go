@@ -117,3 +117,41 @@ func TestClientsService_GetSecret(t *testing.T) {
 		t.Errorf("got: %s, want: %s", *credential.Type, "secret")
 	}
 }
+
+func TestClientsService_CreateSecret(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	createRealm(t, k, realm)
+
+	clientID := createClient(t, k, realm, "client")
+
+	ctx := context.Background()
+	credential, res, err := k.Clients.GetSecret(ctx, realm, clientID)
+	if err != nil {
+		t.Errorf("Clients.Get returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
+	}
+
+	if *credential.Type != "secret" {
+		t.Errorf("got: %s, want: %s", *credential.Type, "secret")
+	}
+
+	// create a new secret
+	next, res, err := k.Clients.CreateSecret(ctx, realm, clientID)
+	if err != nil {
+		t.Errorf("Clients.CreateSecret returned error: %v", err)
+	}
+
+	// make sure it is a different one
+	if *next.Type != "secret" {
+		t.Errorf("got: %s, want: %s", *next.Type, "secret")
+	}
+
+	if credential.Value == next.Value {
+		t.Errorf("got: %t, want: %t", credential.Value == next.Value, credential.Value != next.Value)
+	}
+}

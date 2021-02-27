@@ -125,7 +125,7 @@ func (s *ClientsService) GetSecret(ctx context.Context, realm, id string) (*Cred
 
 // CreateSecret generates a new secret for the client
 func (s *ClientsService) CreateSecret(ctx context.Context, realm, id string) (*Credential, *http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/clients/%s", realm, id)
+	u := fmt.Sprintf("admin/realms/%s/clients/%s/client-secret", realm, id)
 	req, err := s.keycloak.NewRequest(http.MethodPost, u, nil)
 	if err != nil {
 		return nil, nil, err
