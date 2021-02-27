@@ -38,7 +38,7 @@ func (s *ClientRolesService) List(ctx context.Context, realm, id string) ([]*Rol
 }
 
 // GetUsers returns a stream of users that have the specified role name.
-func (s *ClientsService) GetUsers(ctx context.Context, realm, clientID, role string, opts *Options) ([]*User, *http.Response, error) {
+func (s *ClientRolesService) GetUsers(ctx context.Context, realm, clientID, role string, opts *Options) ([]*User, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/clients/%s/roles/%s/users", realm, clientID, role)
 	u, err := addOptions(u, opts)
 	if err != nil {
@@ -57,6 +57,33 @@ func (s *ClientsService) GetUsers(ctx context.Context, realm, clientID, role str
 	}
 
 	return users, res, nil
+}
+
+// GetByID gets client role by id.
+func (s *ClientRolesService) GetByID(ctx context.Context, realm, roleID, clientID string) (*Role, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/roles-by-id/%s?client=%s", realm, roleID, clientID)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var role Role
+	res, err := s.keycloak.Do(ctx, req, &role)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &role, res, nil
+}
+
+// DeleteByID deletes client role by id.
+func (s *ClientRolesService) DeleteByID(ctx context.Context, realm, roleID, clientID string) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/roles-by-id/%s?client=%s", realm, roleID, clientID)
+	req, err := s.keycloak.NewRequest(http.MethodDelete, u, nil)
+	if err != nil {
+		return nil, err
+	}
+	return s.keycloak.Do(ctx, req, nil)
 }
 
 // Returns a stream of groups that have the specified role name

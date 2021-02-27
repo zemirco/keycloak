@@ -15,12 +15,12 @@ func createRealmRole(t *testing.T, k *Keycloak, realm string, name string) {
 		Description: String(name + " description"),
 	}
 
-	if _, err := k.Roles.Create(context.Background(), realm, role); err != nil {
-		t.Errorf("Roles.Create returned error: %v", err)
+	if _, err := k.RealmRoles.Create(context.Background(), realm, role); err != nil {
+		t.Errorf("RealmRoles.Create returned error: %v", err)
 	}
 }
 
-func TestRolesService_Create(t *testing.T) {
+func TestRealmRolesService_Create(t *testing.T) {
 	k := client(t)
 
 	realm := "first"
@@ -33,9 +33,9 @@ func TestRolesService_Create(t *testing.T) {
 		Description: String("my description"),
 	}
 
-	res, err := k.Roles.Create(ctx, realm, role)
+	res, err := k.RealmRoles.Create(ctx, realm, role)
 	if err != nil {
-		t.Errorf("Roles.Create returned error: %v", err)
+		t.Errorf("RealmRoles.Create returned error: %v", err)
 	}
 
 	if res.StatusCode != http.StatusCreated {
@@ -43,7 +43,7 @@ func TestRolesService_Create(t *testing.T) {
 	}
 }
 
-func TestRolesService_List(t *testing.T) {
+func TestRealmRolesService_List(t *testing.T) {
 	k := client(t)
 
 	realm := "first"
@@ -52,9 +52,9 @@ func TestRolesService_List(t *testing.T) {
 	createRealmRole(t, k, realm, "first")
 	createRealmRole(t, k, realm, "second")
 
-	roles, res, err := k.Roles.List(context.Background(), realm, nil)
+	roles, res, err := k.RealmRoles.List(context.Background(), realm, nil)
 	if err != nil {
-		t.Errorf("Roles.List returned error: %v", err)
+		t.Errorf("RealmRoles.List returned error: %v", err)
 	}
 
 	if res.StatusCode != http.StatusOK {
@@ -67,7 +67,7 @@ func TestRolesService_List(t *testing.T) {
 	}
 }
 
-func TestRolesService_GetByName(t *testing.T) {
+func TestRealmRolesService_GetByName(t *testing.T) {
 	k := client(t)
 
 	realm := "first"
@@ -75,9 +75,9 @@ func TestRolesService_GetByName(t *testing.T) {
 
 	createRealmRole(t, k, realm, "first")
 
-	role, res, err := k.Roles.GetByName(context.Background(), realm, "first")
+	role, res, err := k.RealmRoles.GetByName(context.Background(), realm, "first")
 	if err != nil {
-		t.Errorf("Roles.GetByName returned error: %v", err)
+		t.Errorf("RealmRoles.GetByName returned error: %v", err)
 	}
 
 	if res.StatusCode != http.StatusOK {
@@ -89,7 +89,7 @@ func TestRolesService_GetByName(t *testing.T) {
 	}
 }
 
-func TestRolesService_GetByID(t *testing.T) {
+func TestRealmRolesService_GetByID(t *testing.T) {
 	k := client(t)
 
 	realm := "first"
@@ -98,15 +98,15 @@ func TestRolesService_GetByID(t *testing.T) {
 	createRealmRole(t, k, realm, "first")
 
 	// get by name first to get id
-	role, res, err := k.Roles.GetByName(context.Background(), realm, "first")
+	role, res, err := k.RealmRoles.GetByName(context.Background(), realm, "first")
 	if err != nil {
-		t.Errorf("Roles.GetByName returned error: %v", err)
+		t.Errorf("RealmRoles.GetByName returned error: %v", err)
 	}
 
 	// now get by id
-	role, res, err = k.Roles.GetByID(context.Background(), realm, *role.ID)
+	role, res, err = k.RealmRoles.GetByID(context.Background(), realm, *role.ID)
 	if err != nil {
-		t.Errorf("Roles.GetByID returned error: %v", err)
+		t.Errorf("RealmRoles.GetByID returned error: %v", err)
 	}
 
 	if res.StatusCode != http.StatusOK {

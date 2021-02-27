@@ -155,7 +155,7 @@ func ExampleScopesService_Create() {
 	fmt.Println(res)
 }
 
-func ExampleRolesService_Create() {
+func ExampleRealmRolesService_Create() {
 	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
 	if err != nil {
 		panic(err)
@@ -167,7 +167,7 @@ func ExampleRolesService_Create() {
 	}
 
 	ctx := context.Background()
-	res, err := kc.Roles.Create(ctx, "myrealm", role)
+	res, err := kc.RealmRoles.Create(ctx, "myrealm", role)
 	if err != nil {
 		panic(err)
 	}

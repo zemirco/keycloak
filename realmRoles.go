@@ -17,11 +17,11 @@ type Role struct {
 	Attributes  *map[string][]string `json:"attributes,omitempty"`
 }
 
-// RolesService ...
-type RolesService service
+// RealmRolesService ...
+type RealmRolesService service
 
 // Create a new role.
-func (s *RolesService) Create(ctx context.Context, realm string, role *Role) (*http.Response, error) {
+func (s *RealmRolesService) Create(ctx context.Context, realm string, role *Role) (*http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/roles", realm)
 	req, err := s.keycloak.NewRequest(http.MethodPost, u, role)
 	if err != nil {
@@ -39,7 +39,7 @@ type RolesListOptions struct {
 }
 
 // List roles.
-func (s *RolesService) List(ctx context.Context, realm string, opts *RolesListOptions) ([]*Role, *http.Response, error) {
+func (s *RealmRolesService) List(ctx context.Context, realm string, opts *RolesListOptions) ([]*Role, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/roles", realm)
 	u, err := addOptions(u, opts)
 	if err != nil {
@@ -61,7 +61,7 @@ func (s *RolesService) List(ctx context.Context, realm string, opts *RolesListOp
 }
 
 // GetByName gets role by name.
-func (s *RolesService) GetByName(ctx context.Context, realm, name string) (*Role, *http.Response, error) {
+func (s *RealmRolesService) GetByName(ctx context.Context, realm, name string) (*Role, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/roles/%s", realm, name)
 	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
 	if err != nil {
@@ -78,7 +78,7 @@ func (s *RolesService) GetByName(ctx context.Context, realm, name string) (*Role
 }
 
 // GetByID gets role by id.
-func (s *RolesService) GetByID(ctx context.Context, realm, roleID string) (*Role, *http.Response, error) {
+func (s *RealmRolesService) GetByID(ctx context.Context, realm, roleID string) (*Role, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/roles-by-id/%s", realm, roleID)
 	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
 	if err != nil {
@@ -92,33 +92,6 @@ func (s *RolesService) GetByID(ctx context.Context, realm, roleID string) (*Role
 	}
 
 	return &role, res, nil
-}
-
-// GetClientRoleByID gets client role by id.
-func (s *RolesService) GetClientRoleByID(ctx context.Context, realm, roleID, clientID string) (*Role, *http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/roles-by-id/%s?client=%s", realm, roleID, clientID)
-	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var role Role
-	res, err := s.keycloak.Do(ctx, req, &role)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return &role, res, nil
-}
-
-// DeleteClientRoleByID deletes client role by id.
-func (s *RolesService) DeleteClientRoleByID(ctx context.Context, realm, roleID, clientID string) (*http.Response, error) {
-	u := fmt.Sprintf("admin/realms/%s/roles-by-id/%s?client=%s", realm, roleID, clientID)
-	req, err := s.keycloak.NewRequest(http.MethodDelete, u, nil)
-	if err != nil {
-		return nil, err
-	}
-	return s.keycloak.Do(ctx, req, nil)
 }
 
 // delete role

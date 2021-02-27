@@ -29,8 +29,8 @@ type Keycloak struct {
 	Permissions  *PermissionsService
 	Policies     *PoliciesService
 	Realms       *RealmsService
+	RealmRoles   *RealmRolesService
 	Resources    *ResourcesService
-	Roles        *RolesService
 	Scopes       *ScopesService
 	Users        *UsersService
 }
@@ -84,8 +84,8 @@ func NewKeycloak(httpClient *http.Client, baseURL string) (*Keycloak, error) {
 	k.Permissions = (*PermissionsService)(&k.common)
 	k.Policies = (*PoliciesService)(&k.common)
 	k.Realms = (*RealmsService)(&k.common)
+	k.RealmRoles = (*RealmRolesService)(&k.common)
 	k.Resources = (*ResourcesService)(&k.common)
-	k.Roles = (*RolesService)(&k.common)
 	k.Scopes = (*ScopesService)(&k.common)
 	k.Users = (*UsersService)(&k.common)
 

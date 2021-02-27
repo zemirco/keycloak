@@ -168,9 +168,9 @@ func TestUsersService_AddRealmRoles(t *testing.T) {
 	ctx := context.Background()
 
 	// get role in order to assign it
-	role, _, err := k.Roles.GetByName(ctx, realm, roleName)
+	role, _, err := k.RealmRoles.GetByName(ctx, realm, roleName)
 	if err != nil {
-		t.Errorf("Roles.GetByName returned error: %v", err)
+		t.Errorf("RealmRoles.GetByName returned error: %v", err)
 	}
 
 	roles := []*Role{role}
@@ -198,9 +198,9 @@ func TestUsersService_RemoveRealmRoles(t *testing.T) {
 	ctx := context.Background()
 
 	// get role in order to assign it
-	role, _, err := k.Roles.GetByName(ctx, realm, roleName)
+	role, _, err := k.RealmRoles.GetByName(ctx, realm, roleName)
 	if err != nil {
-		t.Errorf("Roles.GetByName returned error: %v", err)
+		t.Errorf("RealmRoles.GetByName returned error: %v", err)
 	}
 
 	roles := []*Role{role}
