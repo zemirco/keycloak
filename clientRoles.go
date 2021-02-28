@@ -37,6 +37,23 @@ func (s *ClientRolesService) List(ctx context.Context, realm, id string) ([]*Rol
 	return roles, res, nil
 }
 
+// Get retrieves a single client role.
+func (s *ClientRolesService) Get(ctx context.Context, realm, id, roleName string) (*Role, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/clients/%s/roles/%s", realm, id, roleName)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var role *Role
+	res, err := s.keycloak.Do(ctx, req, &role)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return role, res, nil
+}
+
 // GetUsers returns a stream of users that have the specified role name.
 func (s *ClientRolesService) GetUsers(ctx context.Context, realm, clientID, role string, opts *Options) ([]*User, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/clients/%s/roles/%s/users", realm, clientID, role)
