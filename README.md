@@ -137,7 +137,7 @@ Open `coverage.html` with your browser.
 
     It's just the Go standard library.
 
-    The only exception is [go-querystring](github.com/google/go-querystring) to easily handle query parameters.
+    The only exception is [go-querystring](https://github.com/google/go-querystring) to easily handle query parameters.
 
 1. Idiomatic Go
 
