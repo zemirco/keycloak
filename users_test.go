@@ -55,6 +55,24 @@ func TestUsersService_Create(t *testing.T) {
 	}
 }
 
+func TestUsersService_Delete(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	createRealm(t, k, realm)
+
+	userID := createUser(t, k, realm, "john")
+
+	res, err := k.Users.Delete(context.Background(), realm, userID)
+	if err != nil {
+		t.Errorf("Users.Delete returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusNoContent {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
+	}
+}
+
 func TestUsersService_List(t *testing.T) {
 	k := client(t)
 
