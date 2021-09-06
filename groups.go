@@ -78,3 +78,23 @@ func (s *GroupsService) Delete(ctx context.Context, realm, groupID string) (*htt
 
 	return s.keycloak.Do(ctx, req, nil)
 }
+
+func (s *GroupsService) AddRealmRoles(ctx context.Context, realm, groupID string, roles []*Role) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/groups/%s/role-mappings/realm", realm, groupID)
+	req, err := s.keycloak.NewRequest(http.MethodPost, u, roles)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.keycloak.Do(ctx, req, nil)
+}
+
+func (s *GroupsService) RemoveRealmRoles(ctx context.Context, realm, groupID string, roles []*Role) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/groups/%s/role-mappings/realm", realm, groupID)
+	req, err := s.keycloak.NewRequest(http.MethodDelete, u, roles)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.keycloak.Do(ctx, req, nil)
+}

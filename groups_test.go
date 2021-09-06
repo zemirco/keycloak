@@ -109,3 +109,76 @@ func TestGroupsService_Delete(t *testing.T) {
 		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
 	}
 }
+
+func TestGroupsService_AddRealmRoles(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	roleNames := [2]string{"role1", "role2"}
+
+	createRealm(t, k, realm)
+	for _, r := range roleNames {
+		createRealmRole(t, k, realm, r)
+	}
+	groupID := createGroup(t, k, realm, "group")
+
+	ctx := context.Background()
+
+	// get role in order to assign it
+	var roles []*Role
+	for _, r := range roleNames {
+		role, _, err := k.RealmRoles.GetByName(ctx, realm, r)
+		if err != nil {
+			t.Errorf("RealmRoles.GetByName returned error: %v", err)
+		}
+		roles = append(roles, role)
+	}
+
+	res, err := k.Groups.AddRealmRoles(ctx, realm, groupID, roles)
+	if err != nil {
+		t.Errorf("Groups.AddRealmRoles returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusNoContent {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
+	}
+}
+
+func TestGroupsService_RemoveRealmRoles(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	roleNames := [2]string{"role1", "role2"}
+
+	createRealm(t, k, realm)
+	for _, r := range roleNames {
+		createRealmRole(t, k, realm, r)
+	}
+	groupID := createGroup(t, k, realm, "group")
+
+	ctx := context.Background()
+
+	// get role in order to assign it
+	var roles []*Role
+	for _, r := range roleNames {
+		role, _, err := k.RealmRoles.GetByName(ctx, realm, r)
+		if err != nil {
+			t.Errorf("RealmRoles.GetByName returned error: %v", err)
+		}
+		roles = append(roles, role)
+	}
+
+	_, err := k.Groups.AddRealmRoles(ctx, realm, groupID, roles)
+	if err != nil {
+		t.Errorf("Groups.AddRealmRoles returned error: %v", err)
+	}
+
+	res, err := k.Groups.RemoveRealmRoles(ctx, realm, groupID, roles)
+	if err != nil {
+		t.Errorf("Groups.RemoveRealmRoles returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusNoContent {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
+	}
+}
