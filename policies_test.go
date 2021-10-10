@@ -65,7 +65,7 @@ func TestPoliciesService_CreateRolePolicy(t *testing.T) {
 
 	createRealmRole(t, k, realm, "role")
 
-	role, res, err := k.RealmRoles.GetByName(context.Background(), realm, "role")
+	role, _, err := k.RealmRoles.GetByName(context.Background(), realm, "role")
 	if err != nil {
 		t.Errorf("RealmRoles.GetByName returned error: %v", err)
 	}
@@ -82,7 +82,7 @@ func TestPoliciesService_CreateRolePolicy(t *testing.T) {
 		}},
 	}
 
-	policy, res, err = k.Policies.CreateRolePolicy(context.Background(), realm, clientID, policy)
+	policy, res, err := k.Policies.CreateRolePolicy(context.Background(), realm, clientID, policy)
 	if err != nil {
 		t.Errorf("Policies.CreateRolePolicy returned error: %v", err)
 	}

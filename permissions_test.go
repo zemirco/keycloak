@@ -200,7 +200,7 @@ func TestPermissionsService_List(t *testing.T) {
 		},
 		ResourceType: String(""),
 	}
-	permission, res, err := k.Permissions.CreateScopePermission(ctx, realm, clientID, permission)
+	_, res, err := k.Permissions.CreateScopePermission(ctx, realm, clientID, permission)
 	if err != nil {
 		t.Errorf("Permissions.CreateScopePermission returned error: %v", err)
 	}
