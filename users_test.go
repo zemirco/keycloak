@@ -43,6 +43,9 @@ func TestUsersService_Create(t *testing.T) {
 		Email:     String("user@email.com"),
 		FirstName: String("first"),
 		LastName:  String("last"),
+		Attributes: &map[string][]string{
+			"some_key": {"some_value"},
+		},
 	}
 
 	res, err := k.Users.Create(ctx, realm, user)
