@@ -61,9 +61,9 @@ func TestRealmRolesService_List(t *testing.T) {
 		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
 	}
 
-	// it includes the "offline_access" and "uma_authorization" roles
-	if len(roles) != 4 {
-		t.Errorf("got: %d, want: %d", len(roles), 4)
+	// it includes the "offline_access", "uma_authorization" and "default-roles-..." roles
+	if len(roles) != 5 {
+		t.Errorf("got: %d, want: %d", len(roles), 5)
 	}
 }
 
