@@ -141,7 +141,7 @@ func TestClientsService_CreateSecret(t *testing.T) {
 	}
 
 	// create a new secret
-	next, res, err := k.Clients.CreateSecret(ctx, realm, clientID)
+	next, _, err := k.Clients.CreateSecret(ctx, realm, clientID)
 	if err != nil {
 		t.Errorf("Clients.CreateSecret returned error: %v", err)
 	}

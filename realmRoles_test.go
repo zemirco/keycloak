@@ -98,13 +98,13 @@ func TestRealmRolesService_GetByID(t *testing.T) {
 	createRealmRole(t, k, realm, "first")
 
 	// get by name first to get id
-	role, res, err := k.RealmRoles.GetByName(context.Background(), realm, "first")
+	role, _, err := k.RealmRoles.GetByName(context.Background(), realm, "first")
 	if err != nil {
 		t.Errorf("RealmRoles.GetByName returned error: %v", err)
 	}
 
 	// now get by id
-	role, res, err = k.RealmRoles.GetByID(context.Background(), realm, *role.ID)
+	role, res, err := k.RealmRoles.GetByID(context.Background(), realm, *role.ID)
 	if err != nil {
 		t.Errorf("RealmRoles.GetByID returned error: %v", err)
 	}

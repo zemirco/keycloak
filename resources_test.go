@@ -83,7 +83,7 @@ func TestResourcesService_Get(t *testing.T) {
 	clientID := createClient(t, k, realm, "client")
 
 	// list all resources first
-	resources, res, err := k.Resources.List(context.Background(), realm, clientID)
+	resources, _, err := k.Resources.List(context.Background(), realm, clientID)
 	if err != nil {
 		t.Errorf("Clients.ListResources returned error: %v", err)
 	}
@@ -117,12 +117,12 @@ func TestResourcesService_Deletee(t *testing.T) {
 		DisplayName: String("resource"),
 	}
 
-	created, res, err := k.Resources.Create(ctx, realm, clientID, resource)
+	created, _, err := k.Resources.Create(ctx, realm, clientID, resource)
 	if err != nil {
 		t.Errorf("Clients.CreateResource returned error: %v", err)
 	}
 
-	res, err = k.Resources.Delete(ctx, realm, clientID, *created.ID)
+	res, err := k.Resources.Delete(ctx, realm, clientID, *created.ID)
 	if err != nil {
 		t.Errorf("Clients.DeleteResource returned error: %v", err)
 	}
