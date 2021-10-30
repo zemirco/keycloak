@@ -14,6 +14,11 @@ jobs:
         env:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
+      mailhog:
+        image: mailhog/mailhog:v1.0.1
+        ports:
+          - 8025:8025
+          - 1025:1025
 
     runs-on: ubuntu-latest
 

@@ -300,3 +300,21 @@ func TestUsersService_AddClientRoles(t *testing.T) {
 func TestUsersService_RemoveClientRoles(t *testing.T) {
 
 }
+
+func TestUsersService_SendVerifyEmail(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+
+	createRealm(t, k, realm)
+	userID := createUser(t, k, realm, "user")
+
+	res, err := k.Users.SendVerifyEmail(context.Background(), realm, userID, nil)
+	if err != nil {
+		t.Errorf("Users.SendVerifyEmail returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusNoContent {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
+	}
+}
