@@ -14,6 +14,11 @@ func createRealm(t *testing.T, k *Keycloak, name string) {
 		Enabled: Bool(true),
 		ID:      String(name),
 		Realm:   String(name),
+		SMTPServer: &map[string]string{
+			"from": "john@wayne.com",
+			"host": "mailhog",
+			"port": "1025",
+		},
 	}
 
 	ctx := context.Background()

@@ -6,6 +6,13 @@ volumes:
       driver: local
 
 services:
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - 8025:8025
+      - 1025:1025
+
   postgres:
     image: postgres:13.1
     volumes:

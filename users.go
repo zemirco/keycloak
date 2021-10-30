@@ -172,3 +172,26 @@ func (s *UsersService) RemoveClientRoles(ctx context.Context, realm, userID, cli
 
 	return s.keycloak.Do(ctx, req, nil)
 }
+
+// VerifyEmailOptions ...
+type VerifyEmailOptions struct {
+	ClientID    string `url:"client_id,omitempty"`
+	RedirectUri string `url:"redirect_uri,omitempty"`
+}
+
+// Send an email-verification email to the user.
+// An email contains a link the user can click to verify their email address.
+func (s *UsersService) SendVerifyEmail(ctx context.Context, realm, userID string, opts *VerifyEmailOptions) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s/send-verify-email", realm, userID)
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := s.keycloak.NewRequest(http.MethodPut, u, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.keycloak.Do(ctx, req, nil)
+}
