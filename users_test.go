@@ -3,6 +3,7 @@ package keycloak
 import (
 	"context"
 	"net/http"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -55,6 +56,52 @@ func TestUsersService_Create(t *testing.T) {
 
 	if res.StatusCode != http.StatusCreated {
 		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusCreated)
+	}
+}
+
+func TestUsersService_Update(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	createRealm(t, k, realm)
+	id := createUser(t, k, realm, "newuser")
+
+	ctx := context.Background()
+	user, res, err := k.Users.GetByID(ctx, realm, id)
+	if err != nil {
+		t.Errorf("Users.GetByID returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
+	}
+
+	newAttributes := &map[string][]string{
+		"some_key": {"other_value"},
+		"new_key":  {"some_value"},
+	}
+	user.Attributes = newAttributes
+
+	res, err = k.Users.Update(ctx, realm, user)
+	if err != nil {
+		t.Errorf("Users.Update returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusCreated {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusCreated)
+	}
+
+	user, res, err = k.Users.GetByID(ctx, realm, id)
+	if err != nil {
+		t.Errorf("Users.GetByID returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
+	}
+
+	if !reflect.DeepEqual(user.Attributes, newAttributes) {
+		t.Errorf("Users.Update attributes do not match: %v != %v", user.Attributes, newAttributes)
 	}
 }
 

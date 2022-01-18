@@ -66,6 +66,23 @@ func (s *UsersService) List(ctx context.Context, realm string) ([]*User, *http.R
 	return users, res, nil
 }
 
+// GetByID get a single user by ID.
+func (s *UsersService) GetByID(ctx context.Context, realm, id string) (*User, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s", realm, id)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var user *User
+	res, err := s.keycloak.Do(ctx, req, &user)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return user, res, nil
+}
+
 // GetByUsername get a single user by username.
 func (s *UsersService) GetByUsername(ctx context.Context, realm, username string) ([]*User, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/users?username=%s", realm, username)
@@ -81,6 +98,17 @@ func (s *UsersService) GetByUsername(ctx context.Context, realm, username string
 	}
 
 	return users, res, nil
+}
+
+// Update update a single user.
+func (s *UsersService) Update(ctx context.Context, realm string, user *User) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s", realm, *user.ID)
+	req, err := s.keycloak.NewRequest(http.MethodPut, u, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.keycloak.Do(ctx, req, nil)
 }
 
 // Delete user.
