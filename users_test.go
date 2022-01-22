@@ -87,8 +87,8 @@ func TestUsersService_Update(t *testing.T) {
 		t.Errorf("Users.Update returned error: %v", err)
 	}
 
-	if res.StatusCode != http.StatusCreated {
-		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusCreated)
+	if res.StatusCode != http.StatusNoContent {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
 	}
 
 	user, res, err = k.Users.GetByID(ctx, realm, id)
