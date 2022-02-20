@@ -59,6 +59,27 @@ func TestUsersService_Create(t *testing.T) {
 	}
 }
 
+func TestUsersService_GetByID(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	createRealm(t, k, realm)
+	id := createUser(t, k, realm, "newuser")
+
+	ctx := context.Background()
+	user, res, err := k.Users.GetByID(ctx, realm, id)
+	if err != nil {
+		t.Errorf("Users.GetByID returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
+	}
+	if *user.Username != "newuser" {
+		t.Errorf("got: %s, want: %s", *user.Username, "newuser")
+	}
+}
+
 func TestUsersService_Update(t *testing.T) {
 	k := client(t)
 
