@@ -8,7 +8,7 @@ jobs:
 
     services:
       keycloak:
-        image: jboss/keycloak:15.0.2
+        image: jboss/keycloak:16.1.1
         ports:
           - 8080:8080
         env:
