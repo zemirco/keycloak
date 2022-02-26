@@ -223,3 +223,27 @@ func (s *UsersService) SendVerifyEmail(ctx context.Context, realm, userID string
 
 	return s.keycloak.Do(ctx, req, nil)
 }
+
+// ExecuteActionsEmailOptions ...
+type ExecuteActionsEmailOptions struct {
+	ClientID    string `url:"client_id,omitempty"`
+	Lifespan    int    `url:"lifespan,omitempty"`
+	RedirectUri string `url:"redirect_uri,omitempty"`
+}
+
+// ExecuteActionsEmail sends an update account email to the user.
+// An email contains a link the user can click to perform a set of required actions.
+func (s *UsersService) ExecuteActionsEmail(ctx context.Context, realm, userID string, opts *ExecuteActionsEmailOptions, actions []string) (*http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s/execute-actions-email", realm, userID)
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := s.keycloak.NewRequest(http.MethodPut, u, actions)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.keycloak.Do(ctx, req, nil)
+}

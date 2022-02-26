@@ -386,3 +386,25 @@ func TestUsersService_SendVerifyEmail(t *testing.T) {
 		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
 	}
 }
+
+func TestUsersService_ExecuteActionsEmail(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+
+	createRealm(t, k, realm)
+	userID := createUser(t, k, realm, "user")
+
+	opts := &ExecuteActionsEmailOptions{
+		Lifespan: 1000,
+	}
+
+	res, err := k.Users.ExecuteActionsEmail(context.Background(), realm, userID, opts, []string{"UPDATE_PROFILE"})
+	if err != nil {
+		t.Errorf("Users.ExecuteActionsEmail returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusNoContent {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusNoContent)
+	}
+}
