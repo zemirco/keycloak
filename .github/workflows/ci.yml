@@ -6,19 +6,19 @@ on: [push, pull_request]
 jobs:
   ci:
 
-    services:
-      keycloak:
-        image: quay.io/keycloak/keycloak:19.0.3
-        ports:
-          - 8080:8080
-        env:
-          KEYCLOAK_ADMIN: admin
-          KEYCLOAK_ADMIN_PASSWORD: admin
-      mailhog:
-        image: mailhog/mailhog:v1.0.1
-        ports:
-          - 8025:8025
-          - 1025:1025
+    # services:
+    #   keycloak:
+    #     image: quay.io/keycloak/keycloak:19.0.3
+    #     ports:
+    #       - 8080:8080
+    #     env:
+    #       KEYCLOAK_ADMIN: admin
+    #       KEYCLOAK_ADMIN_PASSWORD: admin
+    #   mailhog:
+    #     image: mailhog/mailhog:v1.0.1
+    #     ports:
+    #       - 8025:8025
+    #       - 1025:1025
 
     runs-on: ubuntu-latest
 
@@ -35,4 +35,6 @@ jobs:
       run: go vet ./...
 
     - name: test
-      run: go test -race -v ./...
+      run: |
+        docker-compose up -d
+        go test -race -v ./...
