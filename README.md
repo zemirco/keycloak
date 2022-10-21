@@ -32,7 +32,7 @@ func main() {
     config := oauth2.Config{
         ClientID: "admin-cli",
         Endpoint: oauth2.Endpoint{
-            TokenURL: "http://localhost:8080/auth/realms/master/protocol/openid-connect/token",
+            TokenURL: "http://localhost:8080/realms/master/protocol/openid-connect/token",
         },
     }
 
@@ -47,7 +47,7 @@ func main() {
     client := config.Client(ctx, token)
 
     // create a new keycloak instance and provide the http client
-    k, err := keycloak.NewKeycloak(client, "http://localhost:8080/auth/")
+    k, err := keycloak.NewKeycloak(client, "http://localhost:8080/")
     if err != nil {
         panic(err)
     }

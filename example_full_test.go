@@ -22,7 +22,7 @@ func Example_full() {
 	config := oauth2.Config{
 		ClientID: "admin-cli",
 		Endpoint: oauth2.Endpoint{
-			TokenURL: "http://localhost:8080/auth/realms/master/protocol/openid-connect/token",
+			TokenURL: "http://localhost:8080/realms/master/protocol/openid-connect/token",
 		},
 		Scopes: []string{"openid"},
 	}
@@ -39,7 +39,7 @@ func Example_full() {
 	httpClient := config.Client(ctx, token)
 
 	// create a new keycloak client instance
-	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -281,7 +281,7 @@ func Example_full() {
 		ClientID:     clientID,
 		ClientSecret: *credential.Value,
 		Endpoint: oauth2.Endpoint{
-			TokenURL: fmt.Sprintf("http://localhost:8080/auth/realms/%s/protocol/openid-connect/token", realm),
+			TokenURL: fmt.Sprintf("http://localhost:8080/realms/%s/protocol/openid-connect/token", realm),
 		},
 	}
 
@@ -293,7 +293,7 @@ func Example_full() {
 	clientConfig := clientcredentials.Config{
 		ClientID:     clientID,
 		ClientSecret: *credential.Value,
-		TokenURL:     fmt.Sprintf("http://localhost:8080/auth/realms/%s/protocol/openid-connect/token", realm),
+		TokenURL:     fmt.Sprintf("http://localhost:8080/realms/%s/protocol/openid-connect/token", realm),
 		EndpointParams: url.Values{
 			"grant_type": {"urn:ietf:params:oauth:grant-type:uma-ticket"},
 			"permission": {*resourceProject1.Name + "#scope_read"},

@@ -56,8 +56,8 @@ func TestRealmsService_Create(t *testing.T) {
 		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusCreated)
 	}
 
-	if res.Header.Get("Location") != "http://localhost:8080/auth/admin/realms/supernice" {
-		t.Errorf("got: %s, want: %s", res.Header.Get("Location"), "http://localhost:8080/auth/admin/realms/supernice")
+	if res.Header.Get("Location") != "http://localhost:8080/admin/realms/supernice" {
+		t.Errorf("got: %s, want: %s", res.Header.Get("Location"), "http://localhost:8080/admin/realms/supernice")
 	}
 
 	// manually clean up
@@ -135,7 +135,7 @@ func TestRealmsService_GetConfig(t *testing.T) {
 		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
 	}
 
-	if *config.Issuer != "http://localhost:8080/auth/realms/first" {
-		t.Errorf("got: %s, want: %s", *config.Issuer, "http://localhost:8080/auth/realms/first")
+	if *config.Issuer != "http://localhost:8080/realms/first" {
+		t.Errorf("got: %s, want: %s", *config.Issuer, "http://localhost:8080/realms/first")
 	}
 }

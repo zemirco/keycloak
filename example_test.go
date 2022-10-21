@@ -13,7 +13,7 @@ func ExampleNewKeycloak_admin() {
 	config := oauth2.Config{
 		ClientID: "admin-cli",
 		Endpoint: oauth2.Endpoint{
-			TokenURL: "http://localhost:8080/auth/realms/master/protocol/openid-connect/token",
+			TokenURL: "http://localhost:8080/realms/master/protocol/openid-connect/token",
 		},
 	}
 
@@ -29,7 +29,7 @@ func ExampleNewKeycloak_admin() {
 	httpClient := config.Client(ctx, token)
 
 	// use the http client to create a Keycloak instance
-	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -44,7 +44,7 @@ func ExampleNewKeycloak_user() {
 		ClientID:     "40349713-a521-48b2-9197-216adfce5f78",
 		ClientSecret: "ddafbeba-1402-4969-bbbb-475d657fa9d5",
 		Endpoint: oauth2.Endpoint{
-			TokenURL: fmt.Sprintf("http://localhost:8080/auth/realms/%s/protocol/openid-connect/token", "myrealm"),
+			TokenURL: fmt.Sprintf("http://localhost:8080/realms/%s/protocol/openid-connect/token", "myrealm"),
 		},
 	}
 
@@ -60,7 +60,7 @@ func ExampleNewKeycloak_user() {
 	httpClient := config.Client(ctx, token)
 
 	// use the http client to create a Keycloak instance
-	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(httpClient, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -70,7 +70,7 @@ func ExampleNewKeycloak_user() {
 }
 
 func ExampleRealmsService_Create() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -92,7 +92,7 @@ func ExampleRealmsService_Create() {
 }
 
 func ExampleUsersService_Create() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -115,7 +115,7 @@ func ExampleUsersService_Create() {
 }
 
 func ExampleClientsService_Create() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -135,7 +135,7 @@ func ExampleClientsService_Create() {
 }
 
 func ExampleScopesService_Create() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -156,7 +156,7 @@ func ExampleScopesService_Create() {
 }
 
 func ExampleRealmRolesService_Create() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -176,7 +176,7 @@ func ExampleRealmRolesService_Create() {
 }
 
 func ExampleResourcesService_Create() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -198,7 +198,7 @@ func ExampleResourcesService_Create() {
 }
 
 func ExamplePoliciesService_CreateUserPolicy() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
@@ -225,7 +225,7 @@ func ExamplePoliciesService_CreateUserPolicy() {
 }
 
 func ExampleGroupsService_Create() {
-	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/auth/")
+	kc, err := keycloak.NewKeycloak(nil, "http://localhost:8080/")
 	if err != nil {
 		panic(err)
 	}
