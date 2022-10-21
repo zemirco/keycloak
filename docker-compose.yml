@@ -14,7 +14,7 @@ services:
       - 1025:1025
 
   postgres:
-    image: postgres:13.1
+    image: postgres:15.0
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
