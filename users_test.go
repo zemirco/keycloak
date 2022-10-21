@@ -335,6 +335,45 @@ func TestUsersService_RemoveRealmRoles(t *testing.T) {
 	}
 }
 
+func TestUsersService_ListRealmRoles(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	roleName := "role"
+
+	createRealm(t, k, realm)
+	createRealmRole(t, k, realm, roleName)
+	userID := createUser(t, k, realm, "user")
+
+	ctx := context.Background()
+
+	// get role in order to assign it
+	role, _, err := k.RealmRoles.GetByName(ctx, realm, roleName)
+	if err != nil {
+		t.Errorf("RealmRoles.GetByName returned error: %v", err)
+	}
+
+	roles := []*Role{role}
+
+	if _, err := k.Users.AddRealmRoles(ctx, realm, userID, roles); err != nil {
+		t.Errorf("Users.AddRealmRoles returned error: %v", err)
+	}
+
+	roles, res, err := k.Users.ListRealmRoles(ctx, realm, userID)
+	if err != nil {
+		t.Errorf("Users.ListRealmRoles returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
+	}
+
+	// "role" and "default-roles-first"
+	if len(roles) != 2 {
+		t.Errorf("got: %d, want: %d", len(roles), 2)
+	}
+}
+
 func TestUsersService_AddClientRoles(t *testing.T) {
 	k := client(t)
 

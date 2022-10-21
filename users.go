@@ -179,6 +179,23 @@ func (s *UsersService) RemoveRealmRoles(ctx context.Context, realm, userID strin
 	return s.keycloak.Do(ctx, req, nil)
 }
 
+// ListRealmRoles returns a list of realm roles assigned to user.
+func (s *UsersService) ListRealmRoles(ctx context.Context, realm, userID string) ([]*Role, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s/role-mappings/realm", realm, userID)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var roles []*Role
+	res, err := s.keycloak.Do(ctx, req, &roles)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return roles, res, nil
+}
+
 // AddClientRoles adds client roles to user.
 func (s *UsersService) AddClientRoles(ctx context.Context, realm, userID, clientID string, roles []*Role) (*http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/users/%s/role-mappings/clients/%s", realm, userID, clientID)
