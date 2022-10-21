@@ -41,9 +41,9 @@ func TestClientScopesService_List(t *testing.T) {
 		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
 	}
 
-	// address, email, microprofile-jwt, offline_access, phone, profile, role_list, roles, web-origins
-	if len(clientScopes) != 9 {
-		t.Errorf("got: %d, want: %d", len(clientScopes), 9)
+	// ...-dedicated, acr, address, email, microprofile-jwt, offline_access, phone, profile, roles, web-origins
+	if len(clientScopes) != 10 {
+		t.Errorf("got: %d, want: %d", len(clientScopes), 10)
 	}
 }
 

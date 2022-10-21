@@ -14,7 +14,7 @@ func client(t *testing.T) *Keycloak {
 	config := oauth2.Config{
 		ClientID: "admin-cli",
 		Endpoint: oauth2.Endpoint{
-			TokenURL: "http://localhost:8080/auth/realms/master/protocol/openid-connect/token",
+			TokenURL: "http://localhost:8080/realms/master/protocol/openid-connect/token",
 		},
 	}
 
@@ -27,7 +27,7 @@ func client(t *testing.T) *Keycloak {
 
 	client := config.Client(ctx, token)
 
-	kc, err := NewKeycloak(client, "http://localhost:8080/auth/")
+	kc, err := NewKeycloak(client, "http://localhost:8080/")
 	if err != nil {
 		t.Error(err)
 	}
