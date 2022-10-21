@@ -8,12 +8,12 @@ jobs:
 
     services:
       keycloak:
-        image: jboss/keycloak:16.1.1
+        image: quay.io/keycloak/keycloak:19.0.3
         ports:
           - 8080:8080
         env:
-          KEYCLOAK_USER: admin
-          KEYCLOAK_PASSWORD: admin
+          KEYCLOAK_ADMIN: admin
+          KEYCLOAK_ADMIN_PASSWORD: admin
       mailhog:
         image: mailhog/mailhog:v1.0.1
         ports:
