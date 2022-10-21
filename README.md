@@ -98,19 +98,6 @@ Use `down` if you want to stop the Keycloak server.
 docker-compose down
 ```
 
-### Mac M1
-
-Using the default Docker image `jboss/keycloak:16.1.1` does not work. It is easy to build it yourself.
-
-```bash
-git clone git@github.com:keycloak/keycloak-containers.git
-cd keycloak-containers/server
-git checkout 16.1.1
-docker build -t jboss/keycloak:16.1.1 .
-```
-
-From https://github.com/docker/for-mac/issues/5310#issuecomment-877653653.
-
 ## Architecture
 
 The main entry point is `keycloak.go`. This is where the Keycloak instance is created. It all starts in this file.
