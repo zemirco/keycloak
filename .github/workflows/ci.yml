@@ -37,5 +37,5 @@ jobs:
     - name: test
       run: |
         docker-compose up -d
-        sleep 10
+        sleep 20
         go test -race -v ./...
