@@ -1,4 +1,4 @@
-module github.com/zemirco/keycloak
+module github.com/zemirco/keycloak/v2
 
 go 1.17
 
