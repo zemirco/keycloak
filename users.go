@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/url"
 )
 
 // User representation.
@@ -97,6 +98,41 @@ func (s *UsersService) GetByUsername(ctx context.Context, realm, username string
 		return nil, nil, err
 	}
 
+	return users, res, nil
+}
+
+// GetByUsername get a single user by attribute.
+func (s *UsersService) GetByAttribute(ctx context.Context, realm, attributeName string, value string) ([]*User, *http.Response, error) {
+	// Assume we are on a modern release first.
+	var ver string = "22"
+	var queryUrl string
+
+	if si, e := s.keycloak.GetServerInfo(); e == nil {
+		if si != nil {
+			ver = si.SystemInfo.Version
+		}
+	}
+
+	// If we are on a version that doesn't support q=attr:val syntax:
+	//
+	if ver < "20" {
+		queryUrl = fmt.Sprintf("admin/realms/%s/filter=%s=%s", realm, url.PathEscape(attributeName), url.PathEscape(value))
+	} else {
+		queryUrl = fmt.Sprintf("admin/realms/%s/users?q=%s:%s", realm, url.PathEscape(attributeName), url.PathEscape(value))
+	}
+	req, err := s.keycloak.NewRequest(http.MethodGet, queryUrl, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var users []*User
+	res, err := s.keycloak.Do(ctx, req, &users)
+	fmt.Println(res.Header)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	println(len(users))
 	return users, res, nil
 }
 
