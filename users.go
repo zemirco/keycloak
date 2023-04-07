@@ -66,6 +66,23 @@ func (s *UsersService) List(ctx context.Context, realm string) ([]*User, *http.R
 	return users, res, nil
 }
 
+// List user groups.
+func (s *UsersService) ListUserGroups(ctx context.Context, realm string, id string) ([]*Group, *http.Response, error) {
+	u := fmt.Sprintf("admin/realms/%s/users/%s/groups", realm, id)
+	req, err := s.keycloak.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var groups []*Group
+	res, err := s.keycloak.Do(ctx, req, &groups)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return groups, res, nil
+}
+
 // GetByID get a single user by ID.
 func (s *UsersService) GetByID(ctx context.Context, realm, id string) (*User, *http.Response, error) {
 	u := fmt.Sprintf("admin/realms/%s/users/%s", realm, id)
