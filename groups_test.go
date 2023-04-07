@@ -70,6 +70,35 @@ func TestGroupsService_List(t *testing.T) {
 	}
 }
 
+func TestGroupsService_ListGroupMembers(t *testing.T) {
+	k := client(t)
+
+	realm := "first"
+	createRealm(t, k, realm)
+
+	groupID := createGroup(t, k, realm, "group_contains_benny")
+	id := createUser(t, k, realm, "benny")
+
+	res, err := k.Users.JoinGroup(context.Background(), realm, id, groupID)
+
+	users, res, err := k.Groups.ListGroupMembers(context.Background(), realm, groupID)
+	if err != nil {
+		t.Errorf("Groups.ListGroupMembers returned error: %v", err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("got: %d, want: %d", res.StatusCode, http.StatusOK)
+	}
+
+	if len(users) != 1 {
+		t.Errorf("got: %d, want: %d", len(users), 1)
+	}
+
+	if *users[0].Username != "benny" {
+		t.Errorf("got: %v, want: %v", *users[0].Username, "benny")
+	}
+}
+
 func TestGroupsService_Get(t *testing.T) {
 	k := client(t)
 
